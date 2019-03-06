@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <field name="origin" position="after">
                 <field name="sale_id"/>
+                <field name="sale_order_line_id"/>
             </field>
         </field>
     </record>

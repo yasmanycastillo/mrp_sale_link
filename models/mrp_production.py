@@ -7,15 +7,26 @@ class MprProduction(models.Model):
 
     @api.model
     def _get_sale_order(self):
-        for production in self:
+        for record in self:
             sale_obj = self.env['sale.order']
-            if production.origin:
-                sale_id = sale_obj.search([('name', '=', production.origin)])
-                production.sale_id = sale_id.id if sale_id else False
+            if record.origin:
+                sale_id = sale_obj.search([('name', '=', record.origin)])
+                if sale_id:
+                    for line in sale_id.order_line.filtered(
+                            lambda l: l.product_id.id == record.product_id.id):
+                        record.sale_order_line_id = line.id
+                    record.sale_id = sale_id.id
 
     sale_id = fields.Many2one(
         comodel_name='sale.order',
         string='Sale related',
+        readonly=True,
+        copy=False,
+        compute="_get_sale_order"
+    )
+    sale_order_line_id = fields.Many2one(
+        comodel_name='sale.order.line',
+        string='Sale order line related',
         readonly=True,
         copy=False,
         compute="_get_sale_order"
