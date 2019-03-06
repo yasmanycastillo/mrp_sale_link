@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- MRP form inherit view -->
+    <record model="ir.ui.view" id="mrp_sale_link_mrp_production_form_view_inherit">
+        <field name="name">mrp.sale.link.production.form</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="sale_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
